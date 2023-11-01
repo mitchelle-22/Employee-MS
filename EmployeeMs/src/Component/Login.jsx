@@ -1,6 +1,7 @@
-import React,{useState} from 'react'
 import './style.css'
+import React,{useState} from 'react'
 import axios from 'axios'
+import {useNavigate } from 'react-router-dom'
 
 function Login() {
 
@@ -8,11 +9,19 @@ function Login() {
         email:'',
         password:''
     })
+const navigate = useNavigate()
+axios.defaults.withCredentials = true;
 
     const handleSubmit =(event) =>{
         event.preventDefault()
-        axios.post('http://localhost:3000/auth/adminlogin',values)
-        .then(result => console.log(result))
+        axios.post('http://localhost:3000/auth/adminlogin', values)
+        .then(result => {
+            if(result.data.loginStatus){
+
+            }
+            navigate('/dashboard')
+        }
+            )
         .catch(err => console.log(err))
 
     }
