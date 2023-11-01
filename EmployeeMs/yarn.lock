@@ -1189,6 +1189,11 @@
   dependencies:
     "function-bind" "^1.1.2"
 
+"icons@^1.0.0":
+  "integrity" "sha512-7POum3AHKovjEEXg4ITL2opTzGjnN2UnUIhv5LsUX+SjKBsFMjRyANShrCubt0KQdNdcX2wAym+JXOt6LceuYA=="
+  "resolved" "https://registry.npmjs.org/icons/-/icons-1.0.0.tgz"
+  "version" "1.0.0"
+
 "ignore@^5.2.0":
   "integrity" "sha512-MAb38BcSbH0eHNBxn7ql2NH/kX33OkB3lZ1BNdh7ENeRChHTYsTvWrMubiIAMNS2llXEEgZ1MUOBtXChP3kaFQ=="
   "resolved" "https://registry.npmjs.org/ignore/-/ignore-5.2.4.tgz"

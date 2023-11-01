@@ -1,5 +1,5 @@
-import './style.css'
 import React,{useState} from 'react'
+import './style.css'
 import axios from 'axios'
 import {useNavigate } from 'react-router-dom'
 
@@ -9,6 +9,7 @@ function Login() {
         email:'',
         password:''
     })
+    const [err,setError] = useState(null)
 const navigate = useNavigate()
 axios.defaults.withCredentials = true;
 
@@ -17,9 +18,11 @@ axios.defaults.withCredentials = true;
         axios.post('http://localhost:3000/auth/adminlogin', values)
         .then(result => {
             if(result.data.loginStatus){
-
+                navigate('/dashboard')
+            }else{
+                setError(result.data.Error)
             }
-            navigate('/dashboard')
+        
         }
             )
         .catch(err => console.log(err))
@@ -28,6 +31,10 @@ axios.defaults.withCredentials = true;
   return (
     <div className='d-flex justify-content-center align-items-center vh-100 loginPage'>
         <div className='p-3 rounded w-25 border loginForm'>
+            <div className='text-danger'>
+                {err && err}
+
+            </div>
           <h2>Login Page</h2>
           <form onSubmit={handleSubmit}>
             <div className='mb-3'>
