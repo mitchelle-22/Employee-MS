@@ -31,7 +31,7 @@ axios.defaults.withCredentials = true;
   return (
     <div className='d-flex justify-content-center align-items-center vh-100 loginPage'>
         <div className='p-3 rounded w-25 border loginForm'>
-            <div className='text-danger'>
+            <div className='text-warning'>
                 {err && err}
 
             </div>
@@ -47,7 +47,7 @@ axios.defaults.withCredentials = true;
                 <input type="password" name='password' placeholder='Enter Password'
                 onChange={(e)=> setValues({...values,password:e.target.value})} className='form-control rounded-0'/>
             </div>
-            <button className='btn btn-success w-100 rounded-0 mb-2'>Submit</button>
+            <button className='btn btn-success w-100 rounded-0 mb-2'>Log in</button>
             <div className='mb-1'>
                 <input type="checkbox" name="tick" id="tick" className="me-2"/>
                 <label htmlFor="password">You are Agree with terms & conditions</label>
