@@ -11,3 +11,16 @@
     color: rgb(241, 233, 233);
 
 }
+ul li :hover {
+    background-color: gray;
+}
+
+.bg{
+    background-color: rgba(3, 27, 80, 0.6);
+  
+}
+
+li Link .text{
+    color: red
+
+}
