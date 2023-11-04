@@ -2,14 +2,14 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const AddEmployee = () => {
+function AddEmployee() {
   const [employee, setEmployee] = useState({
     name: "",
     email: "",
     password: "",
     salary: "",
     address: "",
-    cat_id: "",
+    category_id: "",
     image: "",
   });
   const [category, setCategory] = useState([]);
@@ -17,7 +17,7 @@ const AddEmployee = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/auth/category")
+      .get('http://localhost:3000/auth/category')
       .then((result) => {
         if (result.data.Status) {
           setCategory(result.data.Result);
@@ -37,7 +37,7 @@ const AddEmployee = () => {
     formData.append('address', employee.address);
     formData.append('salary', employee.salary);
     formData.append('image', employee.image);
-    formData.append('cat_id', employee.cat_id);
+    formData.append('category_id', employee.category_id);
 
     axios.post('http://localhost:3000/auth/add_employee', formData)
     .then(result => {
@@ -130,9 +130,9 @@ const AddEmployee = () => {
               Category
             </label>
             <select name="category" id="category" className="form-select"
-                onChange={(e) => setEmployee({...employee, cat_id: e.target.value})}>
+                onChange={(e) => setEmployee({...employee, category_id: e.target.value})}>
               {category.map((c) => {
-                return <option value={c.id}>{c.name}</option>;
+                return <option value={c.category_id}>{c.category_name}</option>;
               })}
             </select>
           </div>

@@ -38,13 +38,14 @@ router.post("/adminlogin", (req, res) => {
 })
 
 
-  router.post('/add_category',(req,res)=>{
-    const sql = "INSERT INTO category (`name`) VALUE(?)"
-    con.query(sql,[req.body.category],(err,result)=>{
-      if(err) return res.json({Status:false,Error:"Query Error"})
-      return res.json({Status:true})
-    })
+  
+router.post('/add_category', (req, res) => {
+  const sql = "INSERT INTO category (`category_name`) VALUES (?)"
+  con.query(sql, [req.body.category], (err,result) => {
+      if(err) return res.json({Status: false, Error: "Query Error"})
+      return res.json({Status: true})
   })
+})
 
 
 //upload image 
@@ -61,26 +62,39 @@ const upload = multer({
 })
 // end of image upload
 
-router.post('/add_employee',upload.single('image'), (req, res) => {
-  const sql = `INSERT INTO employee 
-  (name,email,password, address, salary,image, cat_id) 
-  VALUES (?)`;
+router.post('/add_employee', upload.single('image'), (req, res) => {
   bcrypt.hash(req.body.password, 10, (err, hash) => {
+    if (err) {
+      return res.json({ Status: false, Error: "Password hashing error" });
+    }
+
+    const sql = `INSERT INTO employee (name, email, password, address, salary, image, category_id) VALUES (?, ?, ?, ?, ?, ?, ?)`;
+    const values = [
+      req.body.name,
+      req.body.email,
+      hash,
+      req.body.address,
+      req.body.salary,
+      req.file.filename,
+      req.body.category_id
+    ];
+
+    con.query(sql, values, (err, result) => {
+      if (err) {
+        return res.json({ Status: false, Error: err });
+      }
+      return res.json({ Status: true });
+    });
+  });
+});
+
+router.get('/employee', (req, res) => {
+  const sql = "SELECT * FROM employee";
+  con.query(sql, (err, result) => {
       if(err) return res.json({Status: false, Error: "Query Error"})
-      const values = [
-          req.body.name,
-          req.body.email,
-          hash,
-          req.body.address,
-          req.body.salary, 
-          req.file.filename,
-          req.body.caty_id
-      ]
-      con.query(sql, [values], (err, result) => {
-          if(err) return res.json({Status: false, Error: err})
-          return res.json({Status: true})
-      })
+      return res.json({Status: true, Result: result})
   })
 })
+
 
 export {router as adminRouter}
