@@ -95,6 +95,25 @@ router.get('/employee', (req, res) => {
       return res.json({Status: true, Result: result})
   })
 })
+router.get('/employee/:id', (req, res) => {
+  const id = req.params.id;
+  const sql = "SELECT * FROM employee WHERE employee_id = ?";
+  con.query(sql, [id], (err, result) => {
+    if (err) {
+      console.error("Database query error:", err);
+      return res.status(500).json({ Status: false, Error: "Database query error" });
+    }
+
+    console.log("Query result:", result);
+
+    if (result.length === 0) {
+      console.error("Employee not found");
+      return res.status(404).json({ Status: false, Error: "Employee not found" });
+    }
+
+    return res.status(200).json({ Status: true, Result: result[0] });
+  });
+});
 
 
 export {router as adminRouter}
