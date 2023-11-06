@@ -16,6 +16,7 @@ function EditEmployee() {
         category_id: "",
     });
     const [category, setCategory] = useState([])
+    const navigate = useNavigate()
     useEffect(() => {
         axios.get('http://localhost:3000/auth/category')
             .then(result => {
