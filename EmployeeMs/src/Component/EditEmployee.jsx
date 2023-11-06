@@ -2,7 +2,8 @@ import axios from 'axios';
 import React from 'react'
 import { useEffect } from 'react';
 import { useState } from 'react';
-import { useParams, } from 'react-router-dom'
+import { useNavigate, useParams, } from 'react-router-dom'
+
 
 
 function EditEmployee() {
@@ -24,9 +25,10 @@ function EditEmployee() {
                     alert(result.data.Error)
                 }
             }).catch(err => console.log(err))
-        axios.get('http://localhost:3000/auth/employee/' + id)
+
+        axios.get('http://localhost:3000/auth/employee/' +id)
+
             .then(result => {
-                console.log("API response:", result.data); // Add this line for debugging
                 setEmployee({
                     ...employee,
                     name: result.data.Result[0].name,
@@ -34,21 +36,31 @@ function EditEmployee() {
                     address: result.data.Result[0].address,
                     salary: result.data.Result[0].salary,
                     category_id: result.data.Result[0].category_id,
-                })
+                })  
             })
-            .catch(err => console.log(err));
-
-
-
-    }, [])
+            .catch(err => {
+                console.log(err);
+            })
+    }, []);
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        axios.put('http://localhost:3000/auth/edit_employee/'+id, employee)
+        .then(result => {
+            if(result.data.Status) {
+                navigate('/dashboard/employee')
+            } else {
+                alert(result.data.Error)
+            }
+        }).catch(err => console.log(err))
+    }
     return (
 
         <div className="d-flex justify-content-center align-items-center mt-3">
             <div className="p-3 rounded w-50 border">
                 <h3 className="text-center">Edit Employee</h3>
-                <form className="row g-1">
+                <form className="row g-1" onSubmit={handleSubmit}>
                     <div className="col-12">
-                        <label for="inputName" className="form-label">
+                        <label htmlFor="inputName" className="form-label">
                             Name
                         </label>
                         <input
@@ -63,7 +75,7 @@ function EditEmployee() {
                         />
                     </div>
                     <div className="col-12">
-                        <label for="inputEmail4" className="form-label">
+                        <label htmlFor="inputEmail4" className="form-label">
                             Email
                         </label>
                         <input
@@ -79,7 +91,7 @@ function EditEmployee() {
                         />
                     </div>
                     <div className='col-12'>
-                        <label for="inputSalary" className="form-label">
+                        <label htmlFor="inputSalary" className="form-label">
                             Salary
                         </label>
                         <input
@@ -95,7 +107,7 @@ function EditEmployee() {
                         />
                     </div>
                     <div className="col-12">
-                        <label for="inputAddress" className="form-label">
+                        <label htmlFor="inputAddress" className="form-label">
                             Address
                         </label>
                         <input
@@ -111,16 +123,23 @@ function EditEmployee() {
                         />
                     </div>
                     <div className="col-12">
-                        <label for="category" className="form-label">
+                        <label htmlFor="category" className="form-label">
                             Category
                         </label>
-                        <select name="category" id="category" className="form-select"
-                            onChange={(e) => setEmployee({ ...employee, category_id: e.target.value })}>
-                            {category.map((c) => {
-                                return <option value={c.category_id}>{c.category_name}</option>;
-                            })}
+                        <select
+                            name="category_name"
+                            id="category_id"
+                            className="form-select"
+                            onChange={(e) => setEmployee({ ...employee, category_id: e.target.value })}
+                        >
+                            {category.map((c) => (
+                                <option key={c.category_id} value={c.category_id}>
+                                    {c.category_name}
+                                </option>
+                            ))}
                         </select>
                     </div>
+
 
                     <div className="col-12">
                         <button type="submit" className="btn btn-primary w-100">

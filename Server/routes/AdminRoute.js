@@ -98,22 +98,28 @@ router.get('/employee', (req, res) => {
 router.get('/employee/:id', (req, res) => {
   const id = req.params.id;
   const sql = "SELECT * FROM employee WHERE employee_id = ?";
-  con.query(sql, [id], (err, result) => {
-    if (err) {
-      console.error("Database query error:", err);
-      return res.status(500).json({ Status: false, Error: "Database query error" });
-    }
+  con.query(sql,[id], (err, result) => {
+      if(err) return res.json({Status: false, Error: "Query Error"+err})
+      return res.json({Status: true, Result: result})
+  })
+})
 
-    console.log("Query result:", result);
-
-    if (result.length === 0) {
-      console.error("Employee not found");
-      return res.status(404).json({ Status: false, Error: "Employee not found" });
-    }
-
-    return res.status(200).json({ Status: true, Result: result[0] });
-  });
-});
-
+router.put('/edit_employee/:id', (req, res) => {
+  const id = req.params.id;
+  const sql = `UPDATE employee 
+      set name = ?, email = ?, salary = ?, address = ?, category_id = ? 
+      Where employee_id = ?`
+  const values = [
+      req.body.name,
+      req.body.email,
+      req.body.salary,
+      req.body.address,
+      req.body.category_id
+  ]
+  con.query(sql,[...values, id], (err, result) => {
+      if(err) return res.json({Status: false, Error: "Query Error" +err})
+      return res.json({Status: true, Result: result})
+  })
+})
 
 export {router as adminRouter}

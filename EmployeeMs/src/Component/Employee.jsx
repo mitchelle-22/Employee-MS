@@ -56,14 +56,14 @@ function Employee() {
                   <td>{e.salary}</td>
                   <td>
                     <Link
-                      to={`/dashboard/edit_employee/` + e.id}
+                      to={`/dashboard/edit_employee/` + e.employee_id}
                       className="btn btn-info btn-sm me-2"
                     >
                       Edit
                     </Link>
                     <button
                       className="btn btn-warning btn-sm"
-                      onClick={() => handleDelete(e.id)}
+                      onClick={() => handleDelete(e.employee_id)}
                     >
                       Delete
                     </button>
