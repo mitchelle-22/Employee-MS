@@ -84,7 +84,7 @@ const salaryCount =()=>{
           </div>
           <hr />
           <div className='d-flex justify-content-between'>
-            <h5>Total:{salaryTotal}</h5>
+            <h5>Total:R{salaryTotal}</h5>
           </div>
         </div>
       </div>

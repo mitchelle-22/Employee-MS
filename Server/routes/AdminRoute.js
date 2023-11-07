@@ -171,6 +171,11 @@ router.get('/admin_records',(req,res)=>{
     return res.json({Status: true, Result: result})
   })
 })
-router.get('/logout')
+
+router.get('/logout',(req,res)=>{
+  res.clearCookie('token')
+  return res.json({Status:true})
+
+})
 
 export {router as adminRouter}
