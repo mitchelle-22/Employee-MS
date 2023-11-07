@@ -108,7 +108,7 @@ router.get('/employee/:id', (req, res) => {
       return res.json({Status: true, Result: result})
   })
 })
-
+//update the employee infor 
 router.put('/edit_employee/:id', (req, res) => {
   const id = req.params.id;
   const sql = `UPDATE employee 
@@ -126,6 +126,7 @@ router.put('/edit_employee/:id', (req, res) => {
       return res.json({Status: true, Result: result})
   })
 })
+//delete employee from the database
 router.delete('/delete_employee/:id',(req,res)=>{
   const id = req.params.id;
   const sql = "DELETE FROM employee WHERE employee_id = ?";
@@ -135,6 +136,8 @@ router.delete('/delete_employee/:id',(req,res)=>{
     })
   
 })
+
+//count the number of admins in the database
 router.get('/admin_count',(req,res)=>{
   const sql ="SELECT COUNT(admin_id) as admin FROM admin;";
   con.query(sql, (err, result) => {
@@ -142,6 +145,8 @@ router.get('/admin_count',(req,res)=>{
     return res.json({Status: true, Result: result})
   })
 })
+
+//count the number of emplyees stored in the database
 router.get('/employee_count',(req,res)=>{
   const sql ="SELECT COUNT(employee_id) as employee FROM employee;";
   con.query(sql, (err, result) => {
@@ -149,6 +154,8 @@ router.get('/employee_count',(req,res)=>{
     return res.json({Status: true, Result: result})
   })
 })
+
+//count the sum of the salary recorded in the database
 router.get('/salary_count',(req,res)=>{
   const sql ="SELECT SUM(salary) as salary FROM employee;";
   con.query(sql, (err, result) => {
