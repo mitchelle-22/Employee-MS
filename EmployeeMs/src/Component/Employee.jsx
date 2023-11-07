@@ -23,7 +23,7 @@ function Employee() {
     axios.delete('http://localhost:3000/auth/delete_employee/'+id)
     .then(result =>{
         if(result.data.Status){
-            navigate('/dashboard/employee')
+            window.location.reload()
         }else{
             alert(result.data.Error)
         }
