@@ -8,6 +8,7 @@ import path from "path";
 
 
 const router = express.Router()
+//login with jwt 
 
 router.post("/adminlogin", (req, res) => {
     const sql = "SELECT * from admin Where email = ? and password = ?";
@@ -28,7 +29,7 @@ router.post("/adminlogin", (req, res) => {
     });
   });
 
-
+//getting caegory from the sql
   router.get('/category', (req, res) => {
     const sql = "SELECT * FROM category";
     con.query(sql, (err, result) => {
@@ -38,7 +39,7 @@ router.post("/adminlogin", (req, res) => {
 })
 
 
-  
+  //add category to the server
 router.post('/add_category', (req, res) => {
   const sql = "INSERT INTO category (`category_name`) VALUES (?)"
   con.query(sql, [req.body.category], (err,result) => {
@@ -62,6 +63,7 @@ const upload = multer({
 })
 // end of image upload
 
+//add employee to the database
 router.post('/add_employee', upload.single('image'), (req, res) => {
   bcrypt.hash(req.body.password, 10, (err, hash) => {
     if (err) {
@@ -88,6 +90,7 @@ router.post('/add_employee', upload.single('image'), (req, res) => {
   });
 });
 
+//get the employee added from the database
 router.get('/employee', (req, res) => {
   const sql = "SELECT * FROM employee";
   con.query(sql, (err, result) => {
@@ -95,6 +98,8 @@ router.get('/employee', (req, res) => {
       return res.json({Status: true, Result: result})
   })
 })
+
+//get employee by id
 router.get('/employee/:id', (req, res) => {
   const id = req.params.id;
   const sql = "SELECT * FROM employee WHERE employee_id = ?";
@@ -159,5 +164,6 @@ router.get('/admin_records',(req,res)=>{
     return res.json({Status: true, Result: result})
   })
 })
+router.get('/logout')
 
 export {router as adminRouter}
